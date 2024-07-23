@@ -1,123 +1,123 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js'
-import { getFirestore, getDoc, setDoc, updateDoc, doc} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js'
+// import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js'
+// import { getFirestore, getDoc, setDoc, updateDoc, doc} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js'
 
-const firebaseConfig = {
-    apiKey: "AIzaSyAUI8QNrMEUThGnw-jhZabju1eEGKwXofg",
-    authDomain: "tg-foxycoin-104cf.firebaseapp.com",
-    databaseURL: "https://tg-foxycoin-104cf-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "tg-foxycoin-104cf",
-    storageBucket: "tg-foxycoin-104cf.appspot.com",
-    messagingSenderId: "319412978831",
-    appId: "1:319412978831:web:3ff2bb63f6c479b12cdcfa"
-};
+// const firebaseConfig = {
+//     apiKey: "AIzaSyAUI8QNrMEUThGnw-jhZabju1eEGKwXofg",
+//     authDomain: "tg-foxycoin-104cf.firebaseapp.com",
+//     databaseURL: "https://tg-foxycoin-104cf-default-rtdb.europe-west1.firebasedatabase.app",
+//     projectId: "tg-foxycoin-104cf",
+//     storageBucket: "tg-foxycoin-104cf.appspot.com",
+//     messagingSenderId: "319412978831",
+//     appId: "1:319412978831:web:3ff2bb63f6c479b12cdcfa"
+// };
 
-const app = initializeApp(firebaseConfig);
+// const app = initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
+// const db = getFirestore(app);
 
-const id = "2";
-const docRef = doc(db, "users", `${id}`);
+// const id = "2";
+// const docRef = doc(db, "users", `${id}`);
 
-document.addEventListener("DOMContentLoaded", async function(){
+// document.addEventListener("DOMContentLoaded", async function(){
     
-    let docSnap = await getDoc(docRef);
+//     let docSnap = await getDoc(docRef);
 
-    if (!docSnap.exists()){
+//     if (!docSnap.exists()){
 
-        await setDoc(docRef, {
-            balance: 0
-        })
+//         await setDoc(docRef, {
+//             balance: 0
+//         })
 
-        docSnap = await getDoc(docRef);
-    }
-    //Database user ecists
+//         docSnap = await getDoc(docRef);
+//     }
+//     //Database user ecists
 
-    let coinPerTap = 1;
-    let energyPerSec = 1;
-    let energyCur = 100;
-    let energyMax = 100;
-    let balance = docSnap.data().balance;
+//     let coinPerTap = 1;
+//     let energyPerSec = 1;
+//     let energyCur = 100;
+//     let energyMax = 100;
+//     let balance = docSnap.data().balance;
 
-    const coin = document.getElementById('coin');
-    const balanceText = document.getElementById('balance');
-    const energyCurText = document.getElementById('energy_cur');
-    const energyMaxText = document.getElementById('energy_max');
-    const energyBar = document.getElementById('energy_fill');
+//     const coin = document.getElementById('coin');
+//     const balanceText = document.getElementById('balance');
+//     const energyCurText = document.getElementById('energy_cur');
+//     const energyMaxText = document.getElementById('energy_max');
+//     const energyBar = document.getElementById('energy_fill');
 
-    function startConfig(){
+//     function startConfig(){
 
-        updateBalanceText(balance);
-        updateEnergyText(energyCur); 
-        energyMaxText.textContent = energyMax;
+//         updateBalanceText(balance);
+//         updateEnergyText(energyCur); 
+//         energyMaxText.textContent = energyMax;
 
-    }
+//     }
 
-    function updateEnergyText(newEnergy){
-        energyCurText.textContent = newEnergy;
-        const energyPercents = (newEnergy/energyMax) * 100;
-        energyBar.style.width = `${energyPercents}%`;
-    }
+//     function updateEnergyText(newEnergy){
+//         energyCurText.textContent = newEnergy;
+//         const energyPercents = (newEnergy/energyMax) * 100;
+//         energyBar.style.width = `${energyPercents}%`;
+//     }
 
-    function updateBalanceText(newBalance) {
-        balanceText.textContent = newBalance;
-    }
+//     function updateBalanceText(newBalance) {
+//         balanceText.textContent = newBalance;
+//     }
 
-    function createFloatingText(text, x, y){
+//     function createFloatingText(text, x, y){
 
-        const floatingText = document.createElement('div');
-        floatingText.className = 'floating-text';
-        floatingText.textContent = text;
-        floatingText.style.left = `${x}px`;
-        floatingText.style.top = `${y}px`;
-        document.body.appendChild(floatingText);
+//         const floatingText = document.createElement('div');
+//         floatingText.className = 'floating-text';
+//         floatingText.textContent = text;
+//         floatingText.style.left = `${x}px`;
+//         floatingText.style.top = `${y}px`;
+//         document.body.appendChild(floatingText);
 
-        setTimeout(() => {
-            floatingText.remove();
-        }, 1000);
+//         setTimeout(() => {
+//             floatingText.remove();
+//         }, 1000);
 
-    }
+//     }
 
-    coin.addEventListener('click', function(event){
+//     coin.addEventListener('click', function(event){
 
-        if (energyCur > 0){
-            energyCur -= coinPerTap;
-            balance += coinPerTap;
+//         if (energyCur > 0){
+//             energyCur -= coinPerTap;
+//             balance += coinPerTap;
 
-            updateBalanceText(balance);
-            updateEnergyText(energyCur);
+//             updateBalanceText(balance);
+//             updateEnergyText(energyCur);
 
-            const rect = coin.getBoundingClientRect();
-            const x = event.pageX;
-            const y = event.pageY;
-            createFloatingText(`+${coinPerTap}`, x, y);
-        }
+//             const rect = coin.getBoundingClientRect();
+//             const x = event.pageX;
+//             const y = event.pageY;
+//             createFloatingText(`+${coinPerTap}`, x, y);
+//         }
 
-    }) //coinTap
+//     }) //coinTap
 
-    function charging(){
+//     function charging(){
 
-        if(energyCur < energyMax) {
+//         if(energyCur < energyMax) {
 
-            energyCur += energyPerSec;
+//             energyCur += energyPerSec;
 
-            updateEnergyText(energyCur);
+//             updateEnergyText(energyCur);
 
-        }
-    }
+//         }
+//     }
 
-    async function updateDatabase(){
+//     async function updateDatabase(){
 
-        await updateDoc(docRef, {
-            balance: balance
-        })
+//         await updateDoc(docRef, {
+//             balance: balance
+//         })
 
-    }
+//     }
 
-    setInterval(charging, 1000);
-    setInterval(updateDatabase, 2000);
+//     setInterval(charging, 1000);
+//     setInterval(updateDatabase, 2000);
 
-    startConfig();
-})
+//     startConfig();
+// })
 
 
 
