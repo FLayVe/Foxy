@@ -54,24 +54,54 @@ body, html {
     display: none;
 }
 
-.main__home {
+
+
+.main__home, .main__boost, .main__task, .main__friend, .main__user, .main__roule{
     display: none;
 }
 
-.main__home.show{
+.main__home.show, .main__boost.show, .main__task.show, .main__friend.show, .main__user.show, .main__roule.show{
     display: block;
 }
 
 
-.main__home, .main__boost, .main__task, .main__friend {
+.main__roule {
     display: none;
+    height: 100vh;
 }
 
-.main__home.show, .main__boost.show, .main__task.show, .main__friend.show {
-    display: block;
+.home__user {
+    display: flex;
+    align-items: center;
+    margin-top: 35px;
+    margin-bottom: 28px;
 }
 
+.name__btn {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+  
+}
 
+@keyframes bounceRight {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(10px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.home__user svg {
+    margin-left: 10px;
+    margin-bottom: -3px;
+    animation: bounceRight 1.8s ease-in-out infinite;
+}
 
 .name {
     color: #DADADA;
@@ -80,8 +110,7 @@ body, html {
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    margin-top: 35px;
-    margin-bottom: 28px;
+
 }
 
 
@@ -695,4 +724,92 @@ text-transform: uppercase;
 	to {
 		-moz-transform: rotate(360deg);
 	}
+}
+
+
+
+.main__users {
+
+}
+
+.user__buttons {
+    margin-top: 95px;
+    display: flex;
+    flex-direction: column;
+}
+
+.user__btn  {
+    margin-top: -25px;
+    background: none;
+    border: none;
+}
+
+.user__btn-3 {
+    margin-top: -19px;
+}
+
+
+
+.roulete__text {
+    margin-top: 94px;
+    color: #DADADA;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.roulete__text span {
+    color: #FF9E2D;
+}
+
+.spin {
+    margin-top: 37px;
+    display: flex;
+    align-items: center;
+}
+
+.main__card-img{
+    margin: 0px 20px;
+    width: 152px;
+    height: 186px;
+}
+
+.spin__card img{
+    width: 122px;
+    height: 149px;
+}
+
+.spin__btn {
+    margin-top: 45px;
+    background: none;
+    border: none;
+    width: 165px;
+    height: 39px;
+    flex-shrink: 0;
+    border-radius: 59px;
+    border: 1px solid #FF9E2D;
+    background: #000;
+    color: #DADADA;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.98px;
+    text-transform: uppercase;
+}
+
+.spin__btn span {
+    color: #FF9E2D;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.98px;
+    text-transform: uppercase;
 }
