@@ -102,4 +102,23 @@ document.getElementById('roulete').addEventListener('click', function() {
 
 
 
+
+// ЗАБОРОНА КОПІЮВАННЯ ТЕКСТУ 
+
+  document.addEventListener('DOMContentLoaded', function() {
+            function preventTextSelection(event) {
+                event.preventDefault();
+            }
+
+
+            document.addEventListener('mousedown', preventTextSelection);
+
+
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Control' || event.key === 'Shift') {
+                    document.addEventListener('mouseup', preventTextSelection);
+                }
+            });
+        });
+
   
