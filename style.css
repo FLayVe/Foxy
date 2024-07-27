@@ -778,6 +778,54 @@ text-transform: uppercase;
     height: 186px;
 }
 
+/* .spin__card img{
+    width: 122px;
+    height: 149px;
+} */
+
+
+/* .spin {
+    display: flex;
+    overflow: hidden;
+    width: 122px; 
+    height: 149px; 
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.spin__card {
+    flex: 0 0 100%;
+    transition: transform 5s ease;
+}
+
+.spin__card img {
+    width: 122px;
+    height: 149px;
+} */
+
+
+
+
+
+.roulette {
+    margin-top: 40px;
+    display: flex;
+}
+
+
+
+.spin__cards {
+    display: flex;
+    align-items: center;
+
+}
+
+.main__card {
+    width: 152px;
+height: 186px;
+margin: 0px 20px 0px 20px;
+}
+
 .spin__card img{
     width: 122px;
     height: 149px;
@@ -812,4 +860,88 @@ text-transform: uppercase;
     line-height: normal;
     letter-spacing: 0.98px;
     text-transform: uppercase;
+}
+
+
+
+
+/* 
+
+
+
+.tap__btn {
+    position: relative;
+    display: inline-block;
+}
+
+#tap-container {
+    position: relative;
+}
+
+.tap-number {
+    position: absolute;
+    animation: fly 2s ease-out forwards;
+    font-size: 20px;
+    color: #adadad;
+}
+
+@keyframes fly {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+} */
+
+
+body {
+    perspective: 1000px; /* Додає перспективу для тривимірних трансформацій */
+}
+
+.tap__btn {
+    position: relative;
+    display: inline-block;
+    border: none;
+    background: transparent;
+    padding: 0;
+    outline: none;
+}
+
+.tap__img-wrapper {
+    display: inline-block;
+    transition: transform 0.3s ease; /* Плавний перехід для обертання */
+}
+
+.tap__btn:active .tap__img-wrapper {
+    transform: rotateY(20deg); /* Обертання по осі Y */
+}
+
+#tap-container {
+    position: relative;
+}
+
+.tap-number {
+    position: absolute;
+    animation: floatUp 2s ease-out forwards;
+    pointer-events: none;
+    color: #dedede;
+    text-align: center;
+    font-family: Inter;
+    font-size: 32px;
+    font-weight: 800;
+    z-index: 2;
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 100;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-200px);
+    }
 }

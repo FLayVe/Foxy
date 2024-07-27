@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.menu').classList.add('show');
         document.querySelector('.main__home').classList.add('show');
     }, 500); // Затримка для синхронізації з CSS анімацією (0.5 сек)
-}, 300); // 3000 мілісекунд = 3 секунди
+}, 3000); // 3000 мілісекунд = 3 секунди
 
 
 
@@ -102,23 +102,70 @@ document.getElementById('roulete').addEventListener('click', function() {
 
 
 
+// document.querySelector('.spin__btn').addEventListener('click', function() {
+//     const roulette = document.querySelector('.spin');
+//     const spinCards = document.querySelectorAll('.spin__card');
+//     const spinCount = spinCards.length;
+    
+//     // Встановлюємо випадкове значення обертання
+//     const spinDegree = Math.floor(Math.random() * spinCount * 360);
 
-// ЗАБОРОНА КОПІЮВАННЯ ТЕКСТУ 
+//     // Задаємо стиль для обертання
+//     roulette.style.transform = `rotate(${spinDegree}deg)`;
 
-  document.addEventListener('DOMContentLoaded', function() {
-            function preventTextSelection(event) {
-                event.preventDefault();
-            }
+//     // Відновлюємо початковий стан після завершення обертання
+//     setTimeout(() => {
+//         roulette.style.transform = 'none';
+//     }, 5000); // 5 секунд
+// });
 
 
-            document.addEventListener('mousedown', preventTextSelection);
 
 
-            document.addEventListener('keydown', function(event) {
-                if (event.key === 'Control' || event.key === 'Shift') {
-                    document.addEventListener('mouseup', preventTextSelection);
-                }
-            });
-        });
 
-  
+let tapFarm = 2;
+let balance = localStorage.getItem('balance') ? parseInt(localStorage.getItem('balance')) : 4957829;
+const tapButton = document.querySelector('.tap__btn');
+const tapContainer = document.getElementById('tap-container');
+const balanceNum = document.querySelector('.balance__num');
+
+// Функція для оновлення відображення балансу
+function updateBalanceDisplay() {
+    balanceNum.textContent = balance.toLocaleString('uk-UA');
+}
+
+// Оновлення відображення балансу при завантаженні сторінки
+updateBalanceDisplay();
+
+tapButton.addEventListener('click', (event) => {
+    const tapNumber = document.createElement('div');
+    tapNumber.classList.add('tap-number');
+    tapNumber.textContent = tapFarm;
+
+    // Отримання координат кліку відносно кнопки
+    const rect = tapButton.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    // Додавання випадкового розкиду до координат
+    const randomOffsetX = (Math.random() - 0.5) * 50; // випадковий розкид по осі X
+    const randomOffsetY = (Math.random() - 0.5) * 50; // випадковий розкид по осі Y
+
+    // Встановлення координат для нового елемента
+    tapNumber.style.left = `${rect.left + x + randomOffsetX}px`;
+    tapNumber.style.top = `${rect.top + y + randomOffsetY}px`;
+
+    document.body.appendChild(tapNumber);
+
+    // Видалення елемента після завершення анімації
+    tapNumber.addEventListener('animationend', () => {
+        document.body.removeChild(tapNumber);
+    });
+
+    // Додавання значення tapFarm до балансу
+    balance += tapFarm;
+    updateBalanceDisplay();
+
+    // Збереження балансу в localStorage
+    localStorage.setItem('balance', balance);
+});
