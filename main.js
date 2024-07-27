@@ -1,5 +1,27 @@
+//Firebase API init
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js'
+import { getFirestore, getDoc, setDoc, updateDoc, doc} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js'
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAUI8QNrMEUThGnw-jhZabju1eEGKwXofg",
+    authDomain: "tg-foxycoin-104cf.firebaseapp.com",
+    databaseURL: "https://tg-foxycoin-104cf-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "tg-foxycoin-104cf",
+    storageBucket: "tg-foxycoin-104cf.appspot.com",
+    messagingSenderId: "319412978831",
+    appId: "1:319412978831:web:3ff2bb63f6c479b12cdcfa"
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+//Telegram API init
+let WebApp = window.Telegram.WebApp;
+const tgUserData = WebApp.initDataUnsafe.user;
 
 
+//Navigation
 document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.querySelectorAll('.nav__link');
     const userLinks = document.querySelectorAll('.main__user-link');
@@ -40,17 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-
-
-
-
-
-
-
-
-
-
-
 document.addEventListener('DOMContentLoaded', () => {
     const links = document.querySelectorAll('.nav__link');
 
@@ -76,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
- // Затримка в 3 секунди перед додаванням класу .delete
+//Preloader Animation
  setTimeout(function() {
     // Додаємо клас .delete до прелоадера
     document.querySelector('.main__preloader').classList.add('delete');
@@ -89,12 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
 }, 3000); // 3000 мілісекунд = 3 секунди
 
 
-
-
-
-
-
-
 document.getElementById('roulete').addEventListener('click', function() {
     document.querySelector('.main__roule').style.display = 'block';
     document.querySelector('.main__user').style.display = 'none';
@@ -102,40 +107,52 @@ document.getElementById('roulete').addEventListener('click', function() {
 
 
 
-// document.querySelector('.spin__btn').addEventListener('click', function() {
-//     const roulette = document.querySelector('.spin');
-//     const spinCards = document.querySelectorAll('.spin__card');
-//     const spinCount = spinCards.length;
-    
-//     // Встановлюємо випадкове значення обертання
-//     const spinDegree = Math.floor(Math.random() * spinCount * 360);
+//UserInfo init
+const id = tgUserData ? tgUserData.id : 'test';
+const docRef = doc(db, "users", `${id}`);
 
-//     // Задаємо стиль для обертання
-//     roulette.style.transform = `rotate(${spinDegree}deg)`;
+let docSnap = await getDoc(docRef);
 
-//     // Відновлюємо початковий стан після завершення обертання
-//     setTimeout(() => {
-//         roulette.style.transform = 'none';
-//     }, 5000); // 5 секунд
-// });
+if(!docSnap.exists()){
 
+    await setDoc(docRef, {
+        balance: 0,
+        friends: 0,
+        tapFarm: 1,
+        farmSpeed: 500
+    })
 
-
-
-
-let tapFarm = 2;
-let balance = localStorage.getItem('balance') ? parseInt(localStorage.getItem('balance')) : 4957829;
-const tapButton = document.querySelector('.tap__btn');
-const tapContainer = document.getElementById('tap-container');
-const balanceNum = document.querySelector('.balance__num');
-
-// Функція для оновлення відображення балансу
-function updateBalanceDisplay() {
-    balanceNum.textContent = balance.toLocaleString('uk-UA');
+    docSnap = await getDoc(docRef);
 }
 
-// Оновлення відображення балансу при завантаженні сторінки
+let balance = docSnap.data().balance;
+let friends = docSnap.data().friends;
+let tapFarm = docSnap.data().tapFarm;
+let farmSpeed = docSnap.data().farmSpeed;
+
+//set Username Friends
+let usernameText = document.querySelectorAll('.name');
+usernameText.forEach(username => {
+    username.innerText = tgUserData ? tgUserData.first_name : `test`;
+});
+
+document.querySelector('.friends__num').textContent = friends;
+
+//Display Functions
+const tapButton = document.querySelector('.tap__btn');
+const balanceText = document.querySelectorAll('.balance__num');
+
+function updateBalanceDisplay() {
+
+    balanceText.forEach(_balanceText => {
+        _balanceText.textContent = balance.toLocaleString('uk-UA');
+    })
+
+}
+
+
 updateBalanceDisplay();
+
 
 tapButton.addEventListener('click', (event) => {
     const tapNumber = document.createElement('div');
@@ -169,3 +186,15 @@ tapButton.addEventListener('click', (event) => {
     // Збереження балансу в localStorage
     localStorage.setItem('balance', balance);
 });
+
+
+//Database Functions
+
+//update balance in database
+setInterval(async function() {
+
+    await updateDoc(docRef, {
+        balance: balance
+    })
+
+}, 2000) // 2 sec
