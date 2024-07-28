@@ -1,6 +1,6 @@
 //Firebase API init
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js'
-import { getFirestore, getDoc, setDoc, updateDoc, doc} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js'
+import { getFirestore, getDoc, setDoc, updateDoc, doc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js'
 
 const firebaseConfig = {
     apiKey: "AIzaSyAUI8QNrMEUThGnw-jhZabju1eEGKwXofg",
@@ -119,7 +119,8 @@ if(!docSnap.exists()){
         balance: 0,
         friends: 0,
         tapFarm: 1,
-        farmSpeed: 500
+        farmSpeed: 500,
+        lastClaim: serverTimestamp()
     })
 
     docSnap = await getDoc(docRef);
@@ -129,6 +130,7 @@ let balance = docSnap.data().balance;
 let friends = docSnap.data().friends;
 let tapFarm = docSnap.data().tapFarm;
 let farmSpeed = docSnap.data().farmSpeed;
+let lastClaim = docSnap.data().lastClaim.toDate();
 
 //set Username Friends
 let usernameText = document.querySelectorAll('.name');
@@ -138,7 +140,7 @@ usernameText.forEach(username => {
 
 document.querySelector('.friends__num').textContent = friends;
 
-//Display Functions
+//Tap Farming
 const tapButton = document.querySelector('.tap__btn');
 const balanceText = document.querySelectorAll('.balance__num');
 
@@ -191,8 +193,91 @@ tapButton.addEventListener('click', (event) => {
             balance: balance
         });
 
-    }, 2000); // 2 sec
+    }, 1500); // 1.5 sec
 });
 
 
-//Database Functions
+//Boosts
+const boost1Lvl = document.getElementById('boost1__lvl');
+const boost2Lvl = document.getElementById('boost2__lvl');
+const boost3Lvl = document.getElementById('boost3__lvl');
+
+function updateBoostDisplay(){
+    boost1Lvl.textContent = `Lvl.${tapFarm}`;
+}
+
+updateBoostDisplay();
+
+//Mining
+const claimButton = document.querySelector('.mining__btn');
+const timerDisplay = document.querySelector('.mining__time');
+
+function updateTimerDisplay(hours, minutes, seconds) {
+    timerDisplay.textContent = `${hours}h ${minutes}m ${seconds}s`;
+}
+
+function startTimer(duration) {
+
+    let timer = duration;
+
+    let hours, minutes, seconds;
+
+    const interval = setInterval(() => {
+
+        hours = parseInt(timer / 3600, 10);
+        minutes = parseInt((timer % 3600) / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        updateTimerDisplay(hours, minutes, seconds);
+
+        if (--timer < 0) {
+
+            clearInterval(interval);
+
+            claimButton.disabled = false;
+            //button.classList.remove('disabled');
+
+        }
+
+    }, 1000); //1 sec
+}
+
+function resetTimer() {
+
+    const duration = 3 * 60 * 60; // 3 hours in seconds
+
+    claimButton.disabled = true;
+    //button.classList.add('disabled');
+
+    startTimer(duration);
+
+}
+
+const now = new Date();
+const timeSinceLastClaim = Math.floor((now - lastClaim) / 1000);
+const timeLeft = (3 * 60 * 60) - timeSinceLastClaim;
+
+if (timeLeft > 0) {
+
+    startTimer(timeLeft);
+
+} else {
+
+    claimButton.disabled = false;
+    //button.classList.remove('disabled');
+}
+
+claimButton.addEventListener('click', async () => {
+
+    //claimButton.disabled = true;
+    
+    //button.classList.add('disabled');
+
+    lastClaim = new Date();
+
+    await updateDoc(docRef, {
+        lastClaim: serverTimestamp()
+    });
+
+    resetTimer();
+});
