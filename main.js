@@ -150,7 +150,7 @@ function updateBalanceDisplay() {
 
 }
 
-
+let BalanceSaveTimeout;
 updateBalanceDisplay();
 
 
@@ -183,18 +183,16 @@ tapButton.addEventListener('click', (event) => {
     balance += tapFarm;
     updateBalanceDisplay();
 
-    // Збереження балансу в localStorage
-    localStorage.setItem('balance', balance);
+    clearTimeout(BalanceSaveTimeout);
+
+    BalanceSaveTimeout = setTimeout(async () => {
+
+        await updateDoc(docRef, {
+            balance: balance
+        });
+
+    }, 2000); // 2 sec
 });
 
 
 //Database Functions
-
-//update balance in database
-setInterval(async function() {
-
-    await updateDoc(docRef, {
-        balance: balance
-    })
-
-}, 2000) // 2 sec
