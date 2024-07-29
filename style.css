@@ -166,8 +166,7 @@ body, html {
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    letter-spacing: 3.74px;
-
+    letter-spacing: 1px;
     border-radius: 58px;
     background: rgba(0, 0, 0, 0.30);
     box-shadow: 0px 0px 16.4px 0px rgba(149, 149, 149, 0.25) inset, 0px 0px 55.5px 0px #000 inset;
@@ -944,4 +943,119 @@ body {
         opacity: 0;
         transform: translateY(-200px);
     }
+}
+
+
+
+
+
+/* ЕКТІВ КНОПКИ */
+
+.mining__btn.active {
+    border: none;
+    width: 268px;
+    height: 53px;
+    flex-shrink: 0;
+    color: #e4e4e4;
+    font-family: Montserrat;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 1px;
+    border-radius: 58px;
+    border-radius: 58px;
+    background: #000;
+    box-shadow: 0px 0px 16.4px 0px rgba(255, 128, 0, 0.25) inset, 0px 0px 55.5px 0px #FF8325 inset;
+    margin: 8px 0px;
+}
+
+
+/* КОД ДЛЯ ПОПАПА */
+
+.popup__boost {
+    position: absolute;
+    width: 373px;
+    height: 244px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    bottom: 0px;
+    z-index: 1;
+    border-radius: 20px 20px 0px 0px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(14.699999809265137px);
+    overflow: hidden;
+}
+
+.popup__light {
+    margin-top: -20px;
+    z-index: -1000;
+    width: 400px;
+    height: 65px;
+    flex-shrink: 0;
+    background-color: #FF7401;
+    filter: blur(40.25px);
+    margin-bottom: -35px;
+}
+
+.popup__name {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.popup__name p {
+    color: #ebebeb;
+    font-family: Montserrat;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-right: 6px;
+}
+
+.popup__price {
+    margin-top: 34px;
+    display: flex;
+    align-items: center;
+}
+
+.popup__price img {
+    height: 18px;
+    width: 18px;
+    margin-right: 5px;
+}
+
+.popup__price p {
+    color: #FFF;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+
+.popup__boost-btn {
+    width: 116px;
+    height: 31px;
+    flex-shrink: 0;
+    border-radius: 44px;
+    border: 1px solid #FF7401;
+    background: #000;
+
+    color: #ffffff;
+    font-family: Montserrat;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 41px;
+}
+
+
+.close__popup-boost {
+    background: none;
+    border: none;
 }
