@@ -219,21 +219,23 @@ function updateBoost(boost, price, lvl){
 
 boostButtons.forEach(button => {
 
-    const boost = button.getAttribute('data-boost');
-    const name = button.getElementById('boost__text').textContent;
-    const lvl = button.getElementById('boost__lvl');
-    const price = getBoostPrice(boost);
+    button.addEventListener('click', (event) => {
+        const boost = this.getAttribute('data-boost');
+        //const lvl = button.getElementById('boost__lvl');
+        const lvl = 1;
+        const price = getBoostPrice(boost);
 
-    popup.getElementById('popup__name').innerText = name;
-    popup.getElementById('popup__price').innerText = price;
+        document.getElementById('popup__name').innerText = boost;
+        document.getElementById('popup__price').innerText = price;
 
-    popup.getElementById('popup__boost-btn').addEventListener('click', (event) => {
+        document.getElementById('popup__boost-btn').addEventListener('click', (event) => {
 
-        popup.classList.remove(show);
+            popup.classList.remove(show);
 
-        updateBoost(boost, price, lvl);
+            updateBoost(boost, price, lvl);
 
-    });
+        });
+    })
 })
 
 
