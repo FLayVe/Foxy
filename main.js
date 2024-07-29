@@ -119,7 +119,7 @@ if(!docSnap.exists()){
         balance: 0,
         friends: 0,
         tapFarm: 1,
-        farmSpeed: 500,
+        mineFarm: 500,
         lastClaim: serverTimestamp()
     })
 
@@ -129,7 +129,7 @@ if(!docSnap.exists()){
 let balance = docSnap.data().balance;
 let friends = docSnap.data().friends;
 let tapFarm = docSnap.data().tapFarm;
-let farmSpeed = docSnap.data().farmSpeed;
+let mineFarm = docSnap.data().mineFarm;
 let lastClaim = docSnap.data().lastClaim.toDate();
 
 //set Username Friends
@@ -198,29 +198,86 @@ tapButton.addEventListener('click', (event) => {
 
 
 //Boosts
-const boost1Lvl = document.getElementById('boost1__lvl');
-const boost2Lvl = document.getElementById('boost2__lvl');
-const boost3Lvl = document.getElementById('boost3__lvl');
 
-function updateBoostDisplay(){
-    boost1Lvl.textContent = `Lvl.${tapFarm}`;
+const boostButtons = document.querySelectorAll('.boost__btn');
+const popup = document.querySelector('.popup__boost');
+
+function getBoostPrice(boost) {
+    switch (boost) {
+        case "Multitap":
+            return 3000 
+            break;
+    
+        default:
+            break;
+    }
 }
 
-updateBoostDisplay();
+function updateBoost(boost, price, lvl){
+
+}
+
+boostButtons.forEach(button => {
+
+    const boost = button.getAttribute('data-boost');
+    const name = button.getElementById('boost__text').textContent;
+    const lvl = button.getElementById('boost__lvl');
+    const price = getBoostPrice(boost);
+
+    popup.getElementById('popup__name').innerText = name;
+    popup.getElementById('popup__price').innerText = price;
+
+    popup.getElementById('popup__boost-btn').addEventListener('click', (event) => {
+
+        popup.classList.remove(show);
+
+        updateBoost(boost, price, lvl);
+
+    });
+})
+
 
 //Mining
+const miningSpeed = 2 * 60 * 60;
+
 const claimButton = document.querySelector('.mining__btn');
 const timerDisplay = document.querySelector('.mining__time');
+const miningProgress = document.querySelector('.mining__num');
 
-function updateTimerDisplay(hours, minutes, seconds) {
+claimButton.disabled = true;
+
+function updateTimerDisplay(hours, minutes, seconds, mined) {
     timerDisplay.textContent = `${hours}h ${minutes}m ${seconds}s`;
+
+    miningProgress.textContent = `${mined} / ${mineFarm}`;
+}
+
+function buttonSetActive(active) {
+
+    if(active){
+
+        claimButton.disabled = false;
+        claimButton.classList.add('active');
+        claimButton.textContent = 'Claim';
+
+        timerDisplay.textContent = '0h 0m 0s';
+        miningProgress.textContent = `${mineFarm} / ${mineFarm}`;
+    }
+    else {
+        
+        claimButton.disabled = true;
+        claimButton.classList.remove('active');
+        claimButton.textContent = 'Mining...';
+
+    }
+
 }
 
 function startTimer(duration) {
 
     let timer = duration;
 
-    let hours, minutes, seconds;
+    let hours, minutes, seconds, mined;
 
     const interval = setInterval(() => {
 
@@ -228,15 +285,15 @@ function startTimer(duration) {
         minutes = parseInt((timer % 3600) / 60, 10);
         seconds = parseInt(timer % 60, 10);
 
-        updateTimerDisplay(hours, minutes, seconds);
+        mined = parseInt((miningSpeed-timer)/miningSpeed*mineFarm);
+        
+        updateTimerDisplay(hours, minutes, seconds, mined);
 
         if (--timer < 0) {
 
             clearInterval(interval);
 
-            claimButton.disabled = false;
-            //button.classList.remove('disabled');
-
+            buttonSetActive(true);
         }
 
     }, 1000); //1 sec
@@ -244,10 +301,9 @@ function startTimer(duration) {
 
 function resetTimer() {
 
-    const duration = 3 * 60 * 60; // 3 hours in seconds
+    const duration = miningSpeed;
 
-    claimButton.disabled = true;
-    //button.classList.add('disabled');
+    buttonSetActive(false);
 
     startTimer(duration);
 
@@ -255,7 +311,7 @@ function resetTimer() {
 
 const now = new Date();
 const timeSinceLastClaim = Math.floor((now - lastClaim) / 1000);
-const timeLeft = (3 * 60 * 60) - timeSinceLastClaim;
+const timeLeft = miningSpeed - timeSinceLastClaim;
 
 if (timeLeft > 0) {
 
@@ -263,21 +319,20 @@ if (timeLeft > 0) {
 
 } else {
 
-    claimButton.disabled = false;
-    //button.classList.remove('disabled');
+    buttonSetActive(true);
 }
 
 claimButton.addEventListener('click', async () => {
 
-    //claimButton.disabled = true;
-    
-    //button.classList.add('disabled');
-
     lastClaim = new Date();
+    resetTimer();
+
+    balance += mineFarm;
+    updateBalanceDisplay();
 
     await updateDoc(docRef, {
-        lastClaim: serverTimestamp()
+        lastClaim: serverTimestamp(),
+        balance: balance
     });
 
-    resetTimer();
 });
