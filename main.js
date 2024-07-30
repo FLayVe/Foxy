@@ -198,6 +198,13 @@ tapButton.addEventListener('click', (event) => {
 
 
 //Boosts
+function updateBoostLvlDisplay(){
+
+    document.getElementById('Multitap_lvl').innerText = `Lvl. ${tapFarm}`;
+
+}
+
+updateBoostLvlDisplay();
 
 const boostButtons = document.querySelectorAll('.boost__btn');
 const popup = document.querySelector('.popup__boost');
@@ -205,7 +212,7 @@ const popup = document.querySelector('.popup__boost');
 function getBoostPrice(boost) {
     switch (boost) {
         case "Multitap":
-            return 3000 
+            return 3000 * Math.pow(1.5, tapFarm-1);
             break;
     
         default:
@@ -213,30 +220,72 @@ function getBoostPrice(boost) {
     }
 }
 
-function updateBoost(boost, price, lvl){
+async function updateBoost(boost, price){
+
+    balance -= price;
+    updateBalanceDisplay();
+
+    switch (boost) {
+        case "Multitap":
+            tapFarm += 1;
+            break;
+    
+        default:
+            break;
+    }
+
+    updateBoostLvlDisplay();
+
+    await updateDoc(docRef, {
+        balance: balance,
+        tapFarm: tapFarm
+    });
 
 }
 
 boostButtons.forEach(button => {
 
     button.addEventListener('click', (event) => {
-        const boost = this.getAttribute('data-boost');
-        //const lvl = button.getElementById('boost__lvl');
-        const lvl = 1;
+
+        popup.classList.remove('close');
+        popup.classList.add('open');
+        
+        
+        const boost = button.getAttribute('data-boost');
+
         const price = getBoostPrice(boost);
 
-        document.getElementById('popup__name').innerText = boost;
-        document.getElementById('popup__price').innerText = price;
+        document.querySelector('.popup__name p').innerText = boost;
+        document.querySelector('.popup__price p').innerText = price;
 
-        document.getElementById('popup__boost-btn').addEventListener('click', (event) => {
+        document.querySelector('.popup__boost-btn').addEventListener('click', (event) => {
 
-            popup.classList.remove(show);
+            if(balance >= price){
 
-            updateBoost(boost, price, lvl);
+                popup.classList.remove('open');
+                popup.classList.add('close');
+
+                updateBoost(boost, price);
+            }
 
         });
     })
 })
+
+document.querySelector('.close__popup-boost').addEventListener('click', (event) => {
+
+    popup.classList.remove('open');
+    popup.classList.add('close');
+
+})
+
+popup.addEventListener('animationend', (event) => {
+
+    if (event.animationName === 'slideOut') {
+        
+        popup.classList.remove('close');
+    }
+});
 
 
 //Mining

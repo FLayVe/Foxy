@@ -986,6 +986,33 @@ body {
     background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(14.699999809265137px);
     overflow: hidden;
+    bottom: -244px; /* Початкове положення за межами екрану */
+}
+
+.popup__boost.open {
+    animation: slideIn 0.5s forwards; /* Анімація відкриття */
+}
+
+.popup__boost.close {
+    animation: slideOut 0.5s forwards; /* Анімація закриття */
+}
+
+@keyframes slideIn {
+    from {
+        bottom: -244px; /* Початкове положення за межами екрану */
+    }
+    to {
+        bottom: 0; /* Кінцеве положення */
+    }
+}
+
+@keyframes slideOut {
+    from {
+        bottom: 0; /* Початкове положення */
+    }
+    to {
+        bottom: -244px; /* Кінцеве положення за межами екрану */
+    }
 }
 
 .popup__light {
