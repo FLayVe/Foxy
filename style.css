@@ -970,6 +970,48 @@ body {
     margin: 8px 0px;
 }
 
+/* КОД ДЛЯ ALERT */
+.alert__boost {
+
+    position: absolute;
+    width: 200px;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    top: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    overflow: hidden;
+
+    top: -60px; /* Початкове положення за межами екрану */
+
+}
+
+.alert__boost.open {
+    animation: alertSlideIn 0.5s forwards; /* Анімація відкриття */
+}
+
+.alert__boost.close {
+    animation: alertSlideOut 0.5s forwards; /* Анімація закриття */
+}
+
+@keyframes alertSlideIn {
+    from {
+        top: -60px; /* Початкове положення за межами екрану */
+    }
+    to {
+        top: 20px; /* Кінцеве положення */
+    }
+}
+
+@keyframes alertSlideOut {
+    from {
+        top: 20px; /* Початкове положення */
+    }
+    to {
+        top: -60px; /* Кінцеве положення за межами екрану */
+    }
+}
 
 /* КОД ДЛЯ ПОПАПА */
 
@@ -990,14 +1032,14 @@ body {
 }
 
 .popup__boost.open {
-    animation: slideIn 0.5s forwards; /* Анімація відкриття */
+    animation: popupSlideIn 0.5s forwards; /* Анімація відкриття */
 }
 
 .popup__boost.close {
-    animation: slideOut 0.5s forwards; /* Анімація закриття */
+    animation: popupSlideOut 0.5s forwards; /* Анімація закриття */
 }
 
-@keyframes slideIn {
+@keyframes popupSlideIn {
     from {
         bottom: -244px; /* Початкове положення за межами екрану */
     }
@@ -1006,7 +1048,7 @@ body {
     }
 }
 
-@keyframes slideOut {
+@keyframes popupSlideOut {
     from {
         bottom: 0; /* Початкове положення */
     }

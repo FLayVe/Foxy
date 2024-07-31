@@ -120,7 +120,8 @@ if(!docSnap.exists()){
         friends: 0,
         tapFarm: 1,
         mineFarm: 500,
-        lastClaim: serverTimestamp()
+        lastClaim: serverTimestamp(),
+        tasks: ["none"]
     })
 
     docSnap = await getDoc(docRef);
@@ -131,6 +132,7 @@ let friends = docSnap.data().friends;
 let tapFarm = docSnap.data().tapFarm;
 let mineFarm = docSnap.data().mineFarm;
 let lastClaim = docSnap.data().lastClaim.toDate();
+let tasks = docSnap.data().tasks;
 
 //set Username Friends
 let usernameText = document.querySelectorAll('.name');
@@ -208,6 +210,33 @@ updateBoostLvlDisplay();
 
 const boostButtons = document.querySelectorAll('.boost__btn');
 const popup = document.querySelector('.popup__boost');
+const alertSuccess = document.querySelector('.alert-success');
+const alertError = document.querySelector('.alert-error');
+
+document.querySelectorAll('.alert__boost').forEach( alert => {
+
+    alert.addEventListener('animationend', (event) => {
+        if (event.animationName === 'alertSlideOut') {
+            
+            alert.classList.remove('close');
+            alert.style.display = 'none';
+        }
+    })
+})
+
+function showAllert(alert){
+
+    alert.style.display = 'flex';
+    alert.classList.add('open');
+
+    setTimeout(function() {
+
+        alert.classList.remove('open');
+        alert.classList.add('close');
+
+    }, 2000) // 2 sec
+
+}
 
 function getBoostPrice(boost) {
     switch (boost) {
@@ -247,7 +276,7 @@ boostButtons.forEach(button => {
 
     button.addEventListener('click', (event) => {
 
-        popup.classList.remove('close');
+        popup.style.display = 'flex';
         popup.classList.add('open');
         
         
@@ -265,7 +294,12 @@ boostButtons.forEach(button => {
                 popup.classList.remove('open');
                 popup.classList.add('close');
 
+                showAllert(alertSuccess);
+
                 updateBoost(boost, price);
+            }
+            else {
+                showAllert(alertError);
             }
 
         });
@@ -281,11 +315,13 @@ document.querySelector('.close__popup-boost').addEventListener('click', (event) 
 
 popup.addEventListener('animationend', (event) => {
 
-    if (event.animationName === 'slideOut') {
+    if (event.animationName === 'popupSlideOut') {
         
         popup.classList.remove('close');
+        popup.style.display = 'none';
     }
 });
+
 
 
 //Mining
@@ -387,3 +423,47 @@ claimButton.addEventListener('click', async () => {
     });
 
 });
+
+//Tasks
+const taskButtons = document.querySelectorAll('.task__btn');
+
+function updateTaskDisplay(task){
+
+    task.disabled = true;
+
+    task.querySelector('.uncompleted-svg').style.display = 'none';
+    task.querySelector('.completed-svg').style.display = 'block';
+
+}
+
+taskButtons.forEach(task => {
+
+    const taskId = task.getAttribute('id');
+
+    if(tasks.includes(taskId)){
+
+        updateTaskDisplay(task);
+
+    }
+    else{
+
+        task.addEventListener('click', async () => {
+
+            const price = parseInt(task.getAttribute('price'), 10);
+            
+            balance += price;
+            tasks.push(taskId);
+
+            updateBalanceDisplay();
+            updateTaskDisplay(task);
+
+            await updateDoc(docRef, {
+                balance: balance,
+                tasks: tasks
+            })
+            
+        })
+
+    }
+    
+})
