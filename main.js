@@ -202,6 +202,9 @@ tapButton.addEventListener('click', (event) => {
 
 
 //Boosts
+
+let _boost, _price;
+
 function updateBoostLvlDisplay(){
 
     document.getElementById('Multitap_lvl').innerText = `Lvl. ${tapFarm}`;
@@ -243,15 +246,21 @@ function showAllert(alert){
 function getBoostPrice(boost) {
     switch (boost) {
         case "Multitap":
-            return 3000 * Math.pow(1.5, tapFarm-1);
+            return parseInt(250 * Math.pow(2, tapFarm-1), 10);
             break;
-    
+        
+        case "Mine100":
+            return 300;
+            break;
+
         default:
             break;
     }
 }
 
 async function updateBoost(boost, price){
+
+    console.log(boost);
 
     balance -= price;
     updateBalanceDisplay();
@@ -260,7 +269,7 @@ async function updateBoost(boost, price){
         case "Multitap":
             tapFarm += 1;
             break;
-    
+            
         default:
             break;
     }
@@ -282,31 +291,33 @@ boostButtons.forEach(button => {
         popup.classList.add('open');
         
         
-        const boost = button.getAttribute('data-boost');
+        _boost = button.getAttribute('data-boost');
 
-        const price = getBoostPrice(boost);
+        _price = getBoostPrice(_boost);
 
-        document.querySelector('.popup__name p').innerText = boost;
-        document.querySelector('.popup__price p').innerText = price;
+        console.log(_boost);
 
-        document.querySelector('.popup__boost-btn').addEventListener('click', (event) => {
-
-            if(balance >= price){
-
-                popup.classList.remove('open');
-                popup.classList.add('close');
-
-                showAllert(alertSuccess);
-
-                updateBoost(boost, price);
-            }
-            else {
-                showAllert(alertError);
-            }
-
-        });
+        document.querySelector('.popup__name p').innerText = _boost;
+        document.querySelector('.popup__price p').innerText = _price;
     })
 })
+
+document.querySelector('.popup__boost-btn').addEventListener('click', (event) => {
+
+    if(balance >= _price){
+
+        popup.classList.remove('open');
+        popup.classList.add('close');
+
+        showAllert(alertSuccess);
+
+        updateBoost(_boost, _price);
+    }
+    else {
+        showAllert(alertError);
+    }
+
+});
 
 document.querySelector('.close__popup-boost').addEventListener('click', (event) => {
 
