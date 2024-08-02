@@ -972,19 +972,36 @@ body {
 
 /* КОД ДЛЯ ALERT */
 .alert__boost {
-
-    position: absolute;
-    width: 200px;
-    height: 60px;
     display: flex;
-    flex-direction: column;
+    position: absolute;
+    width: 209px;
+    height: 44px;
+    display: flex;
     align-items: center;
+    justify-content: center;
     top: 10px;
-    background: rgba(255, 255, 255, 0.7);
-    overflow: hidden;
-
+    z-index: 1;
+    background-image: url(./img/alert-bg.png);
+    background-size: cover;
+    border-radius: 53px;
     top: -60px; /* Початкове положення за межами екрану */
 
+}
+
+
+.alert__text {
+    margin-top: -3px;
+    margin-right: 6px;
+    color: #DADADA;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.alert__eror-svg {
+    margin-left: -9px;
 }
 
 .alert__boost.open {
@@ -1127,4 +1144,71 @@ body {
 .close__popup-boost {
     background: none;
     border: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* АДАПТИВ АДАПТИВ АДАПТИВ АДАПТИВ АДАПТИВ */
+
+
+
+/* HOME HOME HOME HOME HOME HOME HOME HOME  */
+@media (max-height: 670px) {
+    .home__user {
+        margin-top: 15px;
+    }
+
+    .tap__btn {
+        margin-top: 10px;
+    }
+}
+
+
+/* BOOST BOOST BOOST BOOST BOOST BOOST BOOST  */
+@media (max-height: 710px) {
+    .boost__img {
+        height: 52%;
+        width: 52%;
+    }
+
+    .first__boost-btn {
+        margin-top: 20px;
+    }
+}
+
+
+
+@media (max-height: 710px) {
+    .friend__btn-first {
+        margin-top: 20px;
+    }
+
+    .friend__fox img {
+        width: 180px;
+        height: 180px;
+    }
+
+    .friend__fox p {
+        margin-top: -52px;
+        margin-left: 96px;
+    }
+    
 }

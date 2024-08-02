@@ -199,6 +199,8 @@ tapButton.addEventListener('click', (event) => {
 });
 
 
+
+
 //Boosts
 function updateBoostLvlDisplay(){
 
