@@ -87,6 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+
+
+
 //Preloader Animation
  setTimeout(function() {
     // Додаємо клас .delete до прелоадера
@@ -94,10 +97,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Після видалення прелоадера показуємо меню і головний контент
     setTimeout(function() {
-        document.querySelector('.menu').classList.add('show');
         document.querySelector('.main__home').classList.add('show');
     }, 500); // Затримка для синхронізації з CSS анімацією (0.5 сек)
-}, 3000); // 3000 мілісекунд = 3 секунди
+}, 300); // 3000 мілісекунд = 3 секунди
 
 
 document.getElementById('roulete').addEventListener('click', function() {
@@ -105,6 +107,20 @@ document.getElementById('roulete').addEventListener('click', function() {
     document.querySelector('.main__user').style.display = 'none';
 });
 
+
+
+document.getElementById('toggleButton').addEventListener('click', function() {
+    var mainSub = document.querySelector('.main__sub');
+    var menu = document.querySelector('.menu');
+
+    if (mainSub.classList.contains('none')) {
+        mainSub.classList.remove('none');
+        menu.classList.remove('show');
+    } else {
+        mainSub.classList.add('none');
+        menu.classList.add('show');
+    }
+});
 
 
 //UserInfo init

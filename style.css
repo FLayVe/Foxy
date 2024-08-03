@@ -65,6 +65,82 @@ body, html {
 }
 
 
+
+.main__sub {
+    display: block;
+    background: #000;
+    height: 100vh;
+    
+}
+
+.main__sub.none {
+    display: none;
+    
+}
+
+.sub__no {
+    color: #FFF;
+    font-family: Montserrat;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 200;
+    line-height: normal;
+    margin-top: 186px;
+}
+
+
+
+.sub__join {
+    margin-top: 17px;
+    color: #FFF;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-transform: uppercase;
+}
+
+
+.sub__info {
+    margin-top: 25px;
+    width: 227px;
+    color: #767676;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+}
+
+
+.sub__btn {
+    margin-top: 131px;
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+}
+
+.sub__btn img {
+    width: 20px;
+    margin-right: 12px;
+}
+
+.sub__btn p {
+    color: #EFEFEF;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+
+
+
 .main__roule {
     display: none;
     height: 100vh;
