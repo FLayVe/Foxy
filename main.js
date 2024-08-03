@@ -215,146 +215,9 @@ tapButton.addEventListener('click', (event) => {
 });
 
 
-
-
-//Boosts
-
-let _boost, _price;
-
-function updateBoostLvlDisplay(){
-
-    document.getElementById('Multitap_lvl').innerText = `Lvl. ${tapFarm}`;
-
-}
-
-updateBoostLvlDisplay();
-
-const boostButtons = document.querySelectorAll('.boost__btn');
-const popup = document.querySelector('.popup__boost');
-const alertSuccess = document.querySelector('.alert-success');
-const alertError = document.querySelector('.alert-error');
-
-document.querySelectorAll('.alert__boost').forEach( alert => {
-
-    alert.addEventListener('animationend', (event) => {
-        if (event.animationName === 'alertSlideOut') {
-            
-            alert.classList.remove('close');
-            alert.style.display = 'none';
-        }
-    })
-})
-
-function showAllert(alert){
-
-    alert.style.display = 'flex';
-    alert.classList.add('open');
-
-    setTimeout(function() {
-
-        alert.classList.remove('open');
-        alert.classList.add('close');
-
-    }, 2000) // 2 sec
-
-}
-
-function getBoostPrice(boost) {
-    switch (boost) {
-        case "Multitap":
-            return parseInt(250 * Math.pow(2, tapFarm-1), 10);
-            break;
-        
-        case "Mine100":
-            return 300;
-            break;
-
-        default:
-            break;
-    }
-}
-
-async function updateBoost(boost, price){
-
-    console.log(boost);
-
-    balance -= price;
-    updateBalanceDisplay();
-
-    switch (boost) {
-        case "Multitap":
-            tapFarm += 1;
-            break;
-            
-        default:
-            break;
-    }
-
-    updateBoostLvlDisplay();
-
-    await updateDoc(docRef, {
-        balance: balance,
-        tapFarm: tapFarm
-    });
-
-}
-
-boostButtons.forEach(button => {
-
-    button.addEventListener('click', (event) => {
-
-        popup.style.display = 'flex';
-        popup.classList.add('open');
-        
-        
-        _boost = button.getAttribute('data-boost');
-
-        _price = getBoostPrice(_boost);
-
-        console.log(_boost);
-
-        document.querySelector('.popup__name p').innerText = _boost;
-        document.querySelector('.popup__price p').innerText = _price;
-    })
-})
-
-document.querySelector('.popup__boost-btn').addEventListener('click', (event) => {
-
-    if(balance >= _price){
-
-        popup.classList.remove('open');
-        popup.classList.add('close');
-
-        showAllert(alertSuccess);
-
-        updateBoost(_boost, _price);
-    }
-    else {
-        showAllert(alertError);
-    }
-
-});
-
-document.querySelector('.close__popup-boost').addEventListener('click', (event) => {
-
-    popup.classList.remove('open');
-    popup.classList.add('close');
-
-})
-
-popup.addEventListener('animationend', (event) => {
-
-    if (event.animationName === 'popupSlideOut') {
-        
-        popup.classList.remove('close');
-        popup.style.display = 'none';
-    }
-});
-
-
-
 //Mining
 const miningSpeed = 2 * 60 * 60;
+let mineValue = mineFarm * 500;
 
 const claimButton = document.querySelector('.mining__btn');
 const timerDisplay = document.querySelector('.mining__time');
@@ -365,7 +228,7 @@ claimButton.disabled = true;
 function updateTimerDisplay(hours, minutes, seconds, mined) {
     timerDisplay.textContent = `${hours}h ${minutes}m ${seconds}s`;
 
-    miningProgress.textContent = `${mined} / ${mineFarm}`;
+    miningProgress.textContent = `${mined} / ${mineValue}`;
 }
 
 function buttonSetActive(active) {
@@ -377,7 +240,7 @@ function buttonSetActive(active) {
         claimButton.textContent = 'Claim';
 
         timerDisplay.textContent = '0h 0m 0s';
-        miningProgress.textContent = `${mineFarm} / ${mineFarm}`;
+        miningProgress.textContent = `${mineValue} / ${mineValue}`;
     }
     else {
         
@@ -401,7 +264,7 @@ function startTimer(duration) {
         minutes = parseInt((timer % 3600) / 60, 10);
         seconds = parseInt(timer % 60, 10);
 
-        mined = parseInt((miningSpeed-timer)/miningSpeed*mineFarm);
+        mined = parseInt((miningSpeed-timer)/miningSpeed*mineValue);
         
         updateTimerDisplay(hours, minutes, seconds, mined);
 
@@ -443,7 +306,7 @@ claimButton.addEventListener('click', async () => {
     lastClaim = new Date();
     resetTimer();
 
-    balance += mineFarm;
+    balance += mineValue;
     updateBalanceDisplay();
 
     await updateDoc(docRef, {
@@ -452,6 +315,145 @@ claimButton.addEventListener('click', async () => {
     });
 
 });
+
+//Boosts
+
+let _boost, _price;
+
+function updateBoostLvlDisplay(){
+
+    document.getElementById('Multitap_lvl').innerText = `Lvl. ${tapFarm}`;
+    document.getElementById('Mining_lvl').innerText = `Lvl. ${mineFarm}`;
+
+}
+
+updateBoostLvlDisplay();
+
+const boostButtons = document.querySelectorAll('.boost__btn');
+const popup = document.querySelector('.popup__boost');
+const alertSuccess = document.querySelector('.alert-success');
+const alertError = document.querySelector('.alert-error');
+
+document.querySelectorAll('.alert__boost').forEach( alert => {
+
+    alert.addEventListener('animationend', (event) => {
+        if (event.animationName === 'alertSlideOut') {
+            
+            alert.classList.remove('close');
+            alert.style.display = 'none';
+        }
+    })
+})
+
+function showAllert(alert){
+
+    alert.style.display = 'flex';
+    alert.classList.add('open');
+
+    setTimeout(function() {
+
+        alert.classList.remove('open');
+        alert.classList.add('close');
+
+    }, 2000) // 2 sec
+
+}
+
+function getBoostPrice(boost) {
+    switch (boost) {
+        case "Multitap":
+            return parseInt(250 * Math.pow(2, tapFarm-1), 10);
+            break;
+        
+        case "Mining":
+            return 2000 + 1500 * (mineFarm-1);
+            break;
+
+        default:
+            break;
+    }
+}
+
+async function updateBoost(boost, price){
+
+    balance -= price;
+    updateBalanceDisplay();
+
+    switch (boost) {
+        case "Multitap":
+            tapFarm += 1;
+            break;
+        
+        case "Mining":
+            mineFarm += 1;
+            mineValue += 500;
+            break; 
+
+        default:
+            break;
+    }
+
+    updateBoostLvlDisplay();
+
+    await updateDoc(docRef, {
+        balance: balance,
+        tapFarm: tapFarm,
+        mineFarm: mineFarm
+    });
+
+}
+
+boostButtons.forEach(button => {
+
+    button.addEventListener('click', (event) => {
+
+        popup.style.display = 'flex';
+        popup.classList.add('open');
+        
+        
+        _boost = button.getAttribute('data-boost');
+
+        _price = getBoostPrice(_boost);
+
+        document.querySelector('.popup__name p').innerText = button.querySelector('.boost__text').innerText;
+        document.querySelector('.popup__price p').innerText = _price;
+    })
+})
+
+document.querySelector('.popup__boost-btn').addEventListener('click', (event) => {
+
+    if(balance >= _price){
+
+        popup.classList.remove('open');
+        popup.classList.add('close');
+
+        showAllert(alertSuccess);
+
+        updateBoost(_boost, _price);
+    }
+    else {
+        showAllert(alertError);
+    }
+
+});
+
+document.querySelector('.close__popup-boost').addEventListener('click', (event) => {
+
+    popup.classList.remove('open');
+    popup.classList.add('close');
+
+})
+
+popup.addEventListener('animationend', (event) => {
+
+    if (event.animationName === 'popupSlideOut') {
+        
+        popup.classList.remove('close');
+        popup.style.display = 'none';
+    }
+});
+
+
 
 //Tasks
 const taskButtons = document.querySelectorAll('.task__btn');
