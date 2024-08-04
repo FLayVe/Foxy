@@ -135,7 +135,7 @@ if(!docSnap.exists()){
         balance: 0,
         friends: 0,
         tapFarm: 1,
-        mineFarm: 500,
+        mineFarm: 1,
         lastClaim: serverTimestamp(),
         tasks: ["none"]
     })
