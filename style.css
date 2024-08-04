@@ -1288,3 +1288,24 @@ body {
     }
     
 }
+
+/* tasks annimation */
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+.completed-svg {
+    display: none;
+}
+
+.loading-svg {
+    display: none;
+    
+    animation: rotate 2s linear;
+}

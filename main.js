@@ -366,7 +366,7 @@ function getBoostPrice(boost) {
             break;
         
         case "Mining":
-            return 2000 + 1500 * (mineFarm-1);
+            return 2000 + 2000 * (mineFarm-1);
             break;
 
         default:
@@ -458,41 +458,77 @@ popup.addEventListener('animationend', (event) => {
 //Tasks
 const taskButtons = document.querySelectorAll('.task__btn');
 
-function updateTaskDisplay(task){
-
-    task.disabled = true;
-
-    task.querySelector('.uncompleted-svg').style.display = 'none';
-    task.querySelector('.completed-svg').style.display = 'block';
-
-}
-
 taskButtons.forEach(task => {
+    
+    let uncompletedSVG = task.querySelector('.uncompleted-svg');
+    let completedSVG = task.querySelector('.completed-svg');
 
     const taskId = task.getAttribute('id');
 
     if(tasks.includes(taskId)){
 
-        updateTaskDisplay(task);
+        task.disabled = true;
+
+        uncompletedSVG.style.display = 'none';
+        completedSVG.style.display = 'block';
 
     }
-    else{
+    else {
 
-        task.addEventListener('click', async () => {
+        let loadingSVG = task.querySelector('.loading-svg');
+        let completed = false;
 
-            const price = parseInt(task.getAttribute('price'), 10);
+        task.addEventListener('click', () => {
+
+            task.disabled = true;
+
+            if(task.hasAttribute('link')) {
+
+                completed = true;
+                
+                window.open(task.getAttribute('link'), "_blank");
+
+            }
+
+            if(task.hasAttribute('reqFriends')) {
+
+                if(friends >= task.getAttribute('reqFriends')) { 
+                    completed = true;
+                }
+                
+            }
+
+            uncompletedSVG.style.display = 'none';
+            loadingSVG.style.display = 'block';
+    
+        })
+    
+        loadingSVG.addEventListener('animationend', async () => {
             
-            balance += price;
-            tasks.push(taskId);
+            loadingSVG.style.display = 'none';
 
-            updateBalanceDisplay();
-            updateTaskDisplay(task);
+            if (completed){
 
-            await updateDoc(docRef, {
-                balance: balance,
-                tasks: tasks
-            })
-            
+                completedSVG.style.display = 'block';
+                
+                const price = parseInt(task.getAttribute('price'));
+
+                balance += price;
+                tasks.push(taskId);
+
+                updateBalanceDisplay();
+
+                await updateDoc(docRef, {
+                    balance: balance,
+                    tasks: tasks
+                }); 
+            }
+            else {
+
+                uncompletedSVG.style.display = 'block';
+                task.disabled = false;
+            }
+    
         })
 
     }
