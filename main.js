@@ -143,6 +143,18 @@ if(!docSnap.exists()){
     docSnap = await getDoc(docRef);
 }
 
+if(!docSnap.data().lastClaim) {
+
+    await updateDoc(docRef, {
+        tapFarm: 1,
+        mineFarm: 1,
+        lastClaim: serverTimestamp(),
+        tasks: ["none"]
+    })
+
+    docSnap = await getDoc(docRef);
+}
+
 let balance = docSnap.data().balance;
 let friends = docSnap.data().friends;
 let tapFarm = docSnap.data().tapFarm;
