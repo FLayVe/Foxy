@@ -87,39 +87,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-
-
-
-//Preloader Animation
- setTimeout(function() {
-    // Додаємо клас .delete до прелоадера
-    document.querySelector('.main__preloader').classList.add('delete');
-    
-    // Після видалення прелоадера показуємо меню і головний контент
-    setTimeout(function() {
-        document.querySelector('.main__home').classList.add('show');
-    }, 500); // Затримка для синхронізації з CSS анімацією (0.5 сек)
-}, 300); // 3000 мілісекунд = 3 секунди
-
-
+//rulete
 document.getElementById('roulete').addEventListener('click', function() {
     document.querySelector('.main__roule').style.display = 'block';
     document.querySelector('.main__user').style.display = 'none';
-});
-
-
-
-document.getElementById('toggleButton').addEventListener('click', function() {
-    var mainSub = document.querySelector('.main__sub');
-    var menu = document.querySelector('.menu');
-
-    if (mainSub.classList.contains('none')) {
-        mainSub.classList.remove('none');
-        menu.classList.remove('show');
-    } else {
-        mainSub.classList.add('none');
-        menu.classList.add('show');
-    }
 });
 
 
@@ -134,6 +105,7 @@ if(!docSnap.exists()){
     await setDoc(docRef, {
         balance: 0,
         friends: 0,
+        sub: false,
         tapFarm: 1,
         mineFarm: 1,
         lastClaim: serverTimestamp(),
@@ -143,9 +115,10 @@ if(!docSnap.exists()){
     docSnap = await getDoc(docRef);
 }
 
-if(!docSnap.data().lastClaim) {
+if(!docSnap.data().sub) {
 
     await updateDoc(docRef, {
+        sub: false,
         tapFarm: 1,
         mineFarm: 1,
         lastClaim: serverTimestamp(),
@@ -157,10 +130,53 @@ if(!docSnap.data().lastClaim) {
 
 let balance = docSnap.data().balance;
 let friends = docSnap.data().friends;
+let sub = docSnap.data().sub;
 let tapFarm = docSnap.data().tapFarm;
 let mineFarm = docSnap.data().mineFarm;
 let lastClaim = docSnap.data().lastClaim.toDate();
 let tasks = docSnap.data().tasks;
+
+//SUB
+
+//Preloader Animation
+setTimeout(function() {
+    // Додаємо клас .delete до прелоадера
+    document.querySelector('.main__preloader').classList.add('delete');
+    
+    // Після видалення прелоадера показуємо меню і головний контент
+    setTimeout(function() {
+        
+        if(sub) {
+
+            document.querySelector('.menu').classList.add('show');
+            document.querySelector('.main__home').classList.add('show');
+
+        }
+        else {
+            
+            document.querySelector('.main__sub').classList.add('show');
+
+        }
+        
+    
+    }, 200); // Затримка для синхронізації з CSS анімацією (0.5 сек)
+}, 300); // 3000 мілісекунд = 3 секунди
+
+document.querySelector('.sub__btn').addEventListener('click', async () => {
+
+    sub = true;
+
+    await updateDoc(docRef, {
+        sub: sub
+    });
+
+    window.open('https://t.me/+zlMgf3B-4j85OTAy', "_blank");
+
+    document.querySelector('.main__sub').classList.remove('show');
+    document.querySelector('.menu').classList.add('show');
+    document.querySelector('.main__home').classList.add('show');
+});
+
 
 //set Username Friends
 let usernameText = document.querySelectorAll('.name');
@@ -546,3 +562,5 @@ taskButtons.forEach(task => {
     }
     
 })
+
+//friends

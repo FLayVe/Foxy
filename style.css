@@ -66,14 +66,14 @@ body, html {
 
 
 
-.main__sub {
+.main__sub.show {
     display: block;
     background: #000;
     height: 100vh;
     
 }
 
-.main__sub.none {
+.main__sub {
     display: none;
     
 }
