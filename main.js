@@ -1,10 +1,14 @@
+//Made by Flayve
+
+
+//NON PHONE
 // Функція для визначення типу пристрою
 function isPC() {
     return !/Mobi|Android/i.test(navigator.userAgent); // Якщо це не мобільний пристрій, то ПК
-  }
+}
   
   // Основна функція для налаштування відображення
-  function setupDisplay() {
+function setupDisplay() {
     const qrElement = document.querySelector('.main__qr');
     const elementsToHide = [
       '.main__home',
@@ -31,18 +35,18 @@ function isPC() {
   
     // Код для мобільних пристроїв
     qrElement.style.display = 'none'; // Сховуємо main__qr
-  }
+}
   
-  // Виконання функції налаштування при завантаженні сторінки
-  window.addEventListener('load', () => {
+// Виконання функції налаштування при завантаженні сторінки
+window.addEventListener('load', () => {
     setupDisplay();
-  });
+});
   
-  // Виконання функції налаштування при зміні розміру вікна
-  window.addEventListener('resize', setupDisplay);
+// Виконання функції налаштування при зміні розміру вікна
+window.addEventListener('resize', setupDisplay);
   
-  // Виконання функції налаштування після завантаження DOM
-  document.addEventListener('DOMContentLoaded', setupDisplay);
+// Виконання функції налаштування після завантаження DOM
+document.addEventListener('DOMContentLoaded', setupDisplay);
   
 
 
@@ -187,17 +191,6 @@ let tasks = docSnap.data().tasks;
 
 //SUB
 
-
-
-
-
-
-
-
-
-
-
-
 //Preloader Animation
 setTimeout(function() {
     // Додаємо клас .delete до прелоадера
@@ -233,10 +226,6 @@ document.querySelector('.sub__btn').addEventListener('click', async () => {
     });
 
     window.open('https://t.me/+zlMgf3B-4j85OTAy', "_blank");
-
-    document.querySelector('.main__sub').classList.remove('show');
-    document.querySelector('.menu').classList.add('show');
-    document.querySelector('.main__home').classList.add('show');
 });
 
 
