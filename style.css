@@ -1362,5 +1362,28 @@ body {
 }
 
 
+/* user */
+.alert__user {
+    display: flex;
+    position: absolute;
+    width: 209px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 10px;
+    z-index: 1;
+    background-image: url(./img/alert-bg.png);
+    background-size: cover;
+    border-radius: 53px;
+    top: -60px; /* Початкове положення за межами екрану */
 
+}
 
+.alert__user.open {
+    animation: alertSlideIn 0.5s forwards; /* Анімація відкриття */
+}
+
+.alert__user.close {
+    animation: alertSlideOut 0.5s forwards; /* Анімація закриття */
+}

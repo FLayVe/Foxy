@@ -140,13 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-//rulete
-document.getElementById('roulete').addEventListener('click', function() {
-    document.querySelector('.main__roule').style.display = 'block';
-    document.querySelector('.main__user').style.display = 'none';
-});
-
-
 //UserInfo init
 const id = tgUserData ? tgUserData.id : 'test';
 const docRef = doc(db, "users", `${id}`);
@@ -627,6 +620,28 @@ document.querySelector('.friend__invite-btn').addEventListener('click', () => {
 })
 
 
+//rulete
+
+const userButtons = document.querySelectorAll('.user__btn');
+const alert = document.querySelector('.alert__user');
+
+userButtons.forEach(userButton => {
+
+    userButton.addEventListener('click', function() {
 
 
 
+        showAllert(alert);
+    
+        // document.querySelector('.main__roule').style.display = 'block';
+        // document.querySelector('.main__user').style.display = 'none';
+    })
+})
+
+alert.addEventListener('animationend', (event) => {
+    if (event.animationName === 'alertSlideOut') {
+        
+        alert.classList.remove('close');
+        alert.style.display = 'none';
+    }
+})
