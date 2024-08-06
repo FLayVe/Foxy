@@ -1,3 +1,52 @@
+// Функція для визначення типу пристрою
+function isPC() {
+    return !/Mobi|Android/i.test(navigator.userAgent); // Якщо це не мобільний пристрій, то ПК
+  }
+  
+  // Основна функція для налаштування відображення
+  function setupDisplay() {
+    const qrElement = document.querySelector('.main__qr');
+    const elementsToHide = [
+      '.main__home',
+      '.main__boost',
+      '.main__task',
+      '.main__friend',
+      '.main__user',
+      '.main__roule',
+      '.menu'
+    ];
+  
+    if (isPC()) {
+      // Для ПК
+      qrElement.style.display = 'block'; // Робимо main__qr видимим
+  
+      // Приховуємо всі інші елементи
+      elementsToHide.forEach(selector => {
+        document.querySelectorAll(selector).forEach(el => el.style.display = 'none');
+      });
+  
+      // Вихід з функції, щоб не виконувати подальший код
+      return;
+    }
+  
+    // Код для мобільних пристроїв
+    qrElement.style.display = 'none'; // Сховуємо main__qr
+  }
+  
+  // Виконання функції налаштування при завантаженні сторінки
+  window.addEventListener('load', () => {
+    setupDisplay();
+  });
+  
+  // Виконання функції налаштування при зміні розміру вікна
+  window.addEventListener('resize', setupDisplay);
+  
+  // Виконання функції налаштування після завантаження DOM
+  document.addEventListener('DOMContentLoaded', setupDisplay);
+  
+
+
+
 //Firebase API init
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js'
 import { getFirestore, getDoc, setDoc, updateDoc, doc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js'
@@ -138,10 +187,22 @@ let tasks = docSnap.data().tasks;
 
 //SUB
 
+
+
+
+
+
+
+
+
+
+
+
 //Preloader Animation
 setTimeout(function() {
     // Додаємо клас .delete до прелоадера
     document.querySelector('.main__preloader').classList.add('delete');
+
     
     // Після видалення прелоадера показуємо меню і головний контент
     setTimeout(function() {
@@ -155,6 +216,7 @@ setTimeout(function() {
         else {
             
             document.querySelector('.main__sub').classList.add('show');
+            document.querySelector('.').classList.add('show');
 
         }
         
@@ -574,3 +636,8 @@ document.querySelector('.friend__invite-btn').addEventListener('click', () => {
     window.open(`https://t.me/share/url?url=${RefLink}&text=${text}`, "_blank");
 
 })
+
+
+
+
+

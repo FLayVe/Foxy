@@ -44,6 +44,12 @@ body, html {
 
 
 
+
+
+
+
+
+
 .main__preloader {
     background-color: #000;
     height: 100vh;
@@ -54,6 +60,48 @@ body, html {
     display: none;
 }
 
+
+
+
+
+.main__qr {
+    display: none; /* Сховати за замовчуванням */
+    background: #000;
+}
+
+.main__qr.visible {
+    display: block; /* Або flex/grid, якщо це потрібно для вашого макету */
+    background-color: #000;
+    z-index: 100;
+}
+
+
+
+.qr__play {
+    width: 200px;
+    height: 200px;
+}
+
+
+
+.qr__mobile {
+    margin-top: -80px;
+    color: #F0F0F0;
+    font-family: Montserrat;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 125.093%;
+    text-transform: uppercase;
+}
+
+.qr__img {
+    margin-top: 20px;
+    width: 280px;
+    height: 280px;
+    flex-shrink: 0;
+    padding-bottom: 200%;
+}
 
 
 .main__home, .main__boost, .main__task, .main__friend, .main__user, .main__roule{
@@ -1148,6 +1196,9 @@ body {
     to {
         bottom: -244px; /* Кінцеве положення за межами екрану */
     }
+
+
+    
 }
 
 .popup__light {
@@ -1309,3 +1360,7 @@ body {
     
     animation: rotate 2s linear;
 }
+
+
+
+
