@@ -564,3 +564,13 @@ taskButtons.forEach(task => {
 })
 
 //friends
+
+const RefLink = `https://t.me/testtfoxybot?start=${id}`
+
+document.querySelector('.friend__invite-btn').addEventListener('click', () => {
+
+    let text = 'Join to FOXY!!!'
+
+    window.open(`https://t.me/share/url?url=${RefLink}&text=${text}`, "_blank");
+
+})
