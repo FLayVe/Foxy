@@ -48,7 +48,16 @@ window.addEventListener('resize', setupDisplay);
 // Виконання функції налаштування після завантаження DOM
 document.addEventListener('DOMContentLoaded', setupDisplay);
   
-
+//NON COPY
+// Відключення контекстного меню
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+  });
+  
+  // Відключення вибору тексту
+  document.addEventListener('selectstart', function(e) {
+    e.preventDefault();
+  });
 
 
 //Firebase API init
