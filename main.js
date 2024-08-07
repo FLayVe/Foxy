@@ -618,7 +618,7 @@ taskButtons.forEach(task => {
 
 //friends
 
-const RefLink = `https://t.me/testtfoxybot?start=${id}`
+const RefLink = `https://t.me/FoxyCoinAppBot?start=${id}`
 
 document.querySelector('.friend__invite-btn').addEventListener('click', () => {
 
